@@ -1,2 +1,8 @@
-# auction-system
-A simple auction system implementation
+auction-system
+==============
+A simple auction system implementation, will provide a bid tracker interface and concrete implementation with the following functionality:
+
+* Record a user's bid on an item
+* Get the current winning bid for an item
+* Get all the bids for an item
+* Get all the items on which a user has bid
