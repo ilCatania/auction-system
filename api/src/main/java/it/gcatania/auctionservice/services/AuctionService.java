@@ -11,11 +11,13 @@ public interface AuctionService {
   /**
    * registers the placement of the input bid
    *
-   * @param bid the bid to be registered
-   * @throws IllegalArgumentException if the input bid is null or with missing values for mandatory
-   *         fields
+   * @param user the user placing the bid
+   * @param item the item under bid
+   * @return bid the placed bid
+   * @throws IllegalArgumentException if the input parameters are null or with missing values for
+   *         mandatory fields
    */
-  void recordBid(Bid bid) throws IllegalArgumentException;
+  Bid placeBid(User user, Item item, double bidAmount) throws IllegalArgumentException;
 
   /**
    * retrieves the current winning bid for an input item.
@@ -27,7 +29,7 @@ public interface AuctionService {
    *         as the winning bid
    * @throws IllegalArgumentException if the input item is null or with missing values
    */
-  Bid getCurrentWinningBid(Item item) throws IllegalArgumentException;
+  Bid getWinningBid(Item item) throws IllegalArgumentException;
 
   /**
    * retrieves all the bids recorded for an input item
@@ -37,7 +39,7 @@ public interface AuctionService {
    *         null
    * @throws IllegalArgumentException if the input item is null or with missing values
    */
-  List<Bid> getAllBids(Item item) throws IllegalArgumentException;
+  List<Bid> getBids(Item item) throws IllegalArgumentException;
 
   /**
    * retreves all the items for which the input user submitted at least one bid
@@ -47,6 +49,6 @@ public interface AuctionService {
    *         but never null
    * @throws IllegalArgumentException if the input user is null or with missing values
    */
-  List<Item> getAllBidItems(User user) throws IllegalArgumentException;
+  List<Item> getBidItems(User user) throws IllegalArgumentException;
 
 }
