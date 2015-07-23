@@ -11,13 +11,11 @@ public interface AuctionService {
   /**
    * registers the placement of the input bid
    *
-   * @param user the user placing the bid
-   * @param item the item under bid
-   * @return bid the placed bid
-   * @throws IllegalArgumentException if the input parameters are null or with missing values for
-   *         mandatory fields
+   * @param b the bid to place
+   * @throws IllegalArgumentException if the input bid is null or with missing values for mandatory
+   *         fields, or lower than a previous bid for the same item by the same user
    */
-  Bid placeBid(User user, Item item, double bidAmount) throws IllegalArgumentException;
+  void placeBid(Bid b) throws IllegalArgumentException;
 
   /**
    * retrieves the current winning bid for an input item.
