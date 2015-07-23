@@ -2,6 +2,7 @@ package it.gcatania.auctionservice.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -54,8 +55,8 @@ public class AuctionServiceImpl implements AuctionService {
 
   @Override
   public List<Bid> getBids(Item item) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
+    String itemName = Checks.notNullName(item);
+    return pbRepo.findByKeyItem(itemName).stream().map(b -> b.toBid()).collect(Collectors.toList());
   }
 
   @Override
