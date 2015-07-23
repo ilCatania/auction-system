@@ -2,11 +2,10 @@ package it.gcatania.auctionservice.services.impl;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.gcatania.auctionservice.dao.PersistentBidRepository;
 import it.gcatania.auctionservice.dataobjects.Bid;
 import it.gcatania.auctionservice.dataobjects.Item;
 import it.gcatania.auctionservice.dataobjects.User;
@@ -18,8 +17,8 @@ import it.gcatania.auctionservice.utils.Checks;
 @Service
 public class AuctionServiceImpl implements AuctionService {
 
-  @PersistenceContext
-  EntityManager em;
+  @Autowired
+  private PersistentBidRepository persistentBidRepository;
 
   @Override
   public void placeBid(Bid b) throws IllegalArgumentException {
@@ -29,17 +28,15 @@ public class AuctionServiceImpl implements AuctionService {
     double bidAmount = b.getBidAmount();
     Checks.ensure(bidAmount > 0, "Invalid bid amount: {0}, must be positive", bidAmount);
     PersistentBidKey k = new PersistentBidKey(bidderName, bidItemName);
-    PersistentBid pb = em.find(PersistentBid.class, k);
+    PersistentBid pb = persistentBidRepository.findOne(k);
 
     if (pb == null) {
       pb = new PersistentBid(bidderName, bidItemName, bidAmount);
-      em.persist(pb);
     } else {
       // TODO ensure that new bid is higher;
       pb.setBidAmount(bidAmount);
-      em.merge(pb);
     }
-    em.flush();
+    persistentBidRepository.save(pb);
   }
 
   @Override
