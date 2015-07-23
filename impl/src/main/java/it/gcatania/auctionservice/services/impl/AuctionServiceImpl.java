@@ -56,13 +56,14 @@ public class AuctionServiceImpl implements AuctionService {
   @Override
   public List<Bid> getBids(Item item) throws IllegalArgumentException {
     String itemName = Checks.notNullName(item);
-    return pbRepo.findByKeyItem(itemName).stream().map(b -> b.toBid()).collect(Collectors.toList());
+    return pbRepo.findByKeyItem(itemName).stream().map(PersistentBid::toBid)
+        .collect(Collectors.toList());
   }
 
   @Override
   public List<Item> getBidItems(User user) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
+    String userName = Checks.notNullName(user);
+    return pbRepo.findItemsByUser(userName).stream().map(Item::new).collect(Collectors.toList());
   }
 
 }
