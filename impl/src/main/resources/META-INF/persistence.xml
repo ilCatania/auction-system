@@ -4,5 +4,12 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
 	<persistence-unit name="auctionServicePersistence" transaction-type="RESOURCE_LOCAL">
+    <class>it.gcatania.auctionservice.dataobjects.impl.PersistentBidKey</class>
+    <class>it.gcatania.auctionservice.dataobjects.impl.PersistentBid</class>
+    <properties>
+      <!-- TODO remove or externalize property -->
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="hibernate.show_sql" value="true"/>
+    </properties>
 	</persistence-unit>
 </persistence>

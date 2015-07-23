@@ -14,7 +14,6 @@ import it.gcatania.auctionservice.services.AuctionService;
 @ContextConfiguration
 public class AuctionServiceTest extends AbstractTransactionalTestNGSpringContextTests {
 
-
   @Autowired
   private AuctionService auctionService;
 
@@ -22,11 +21,12 @@ public class AuctionServiceTest extends AbstractTransactionalTestNGSpringContext
   public void testPlaceBid() {
     User alice = new User("Alice");
     Item oldSofa = new Item("Old sofa");
-    Bid bid = auctionService.placeBid(alice, oldSofa, 50);
-    Assert.assertNotNull(bid, "No bid returned by placeBid()");
-    Assert.assertEquals(bid.getBidder(), alice);
-    Assert.assertEquals(bid.getBidItem(), oldSofa);
-    Assert.assertEquals(bid.getBidAmount(), 50d);
+    Bid bid = new Bid(alice, oldSofa, 50);
+    auctionService.placeBid(bid);
+
+    int count = countRowsInTableWhere("PersistentBid",
+        "\"user\" = 'Alice' and item = 'Old sofa' and bidAmount = 50");
+    Assert.assertEquals(count, 1, "Bid was not persisted on the database");
   }
 
 }
