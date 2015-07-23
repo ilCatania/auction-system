@@ -1,8 +1,11 @@
 package it.gcatania.auctionservice.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import it.gcatania.auctionservice.dao.PersistentBidRepository;
@@ -18,7 +21,7 @@ import it.gcatania.auctionservice.utils.Checks;
 public class AuctionServiceImpl implements AuctionService {
 
   @Autowired
-  private PersistentBidRepository persistentBidRepository;
+  private PersistentBidRepository pbRepo;
 
   @Override
   public void placeBid(Bid b) throws IllegalArgumentException {
@@ -28,7 +31,7 @@ public class AuctionServiceImpl implements AuctionService {
     double bidAmount = b.getBidAmount();
     Checks.ensure(bidAmount > 0, "Invalid bid amount: {0}, must be positive", bidAmount);
     PersistentBidKey k = new PersistentBidKey(bidderName, bidItemName);
-    PersistentBid pb = persistentBidRepository.findOne(k);
+    PersistentBid pb = pbRepo.findOne(k);
 
     if (pb == null) {
       pb = new PersistentBid(bidderName, bidItemName, bidAmount);
@@ -36,13 +39,17 @@ public class AuctionServiceImpl implements AuctionService {
       // TODO ensure that new bid is higher;
       pb.setBidAmount(bidAmount);
     }
-    persistentBidRepository.save(pb);
+    pbRepo.save(pb);
   }
 
   @Override
-  public Bid getWinningBid(Item item) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
+  public Optional<Bid> getWinningBid(Item item) throws IllegalArgumentException {
+    String itemName = Checks.notNullName(item);
+    PersistentBid found = pbRepo.findTopByKeyItem(itemName, new Sort(Direction.DESC, "bidAmount"));
+    if (found == null) {
+      return Optional.empty();
+    }
+    return Optional.of(found.toBid());
   }
 
   @Override

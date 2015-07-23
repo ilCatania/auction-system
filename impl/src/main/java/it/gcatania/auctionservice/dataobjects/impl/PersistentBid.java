@@ -4,6 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import it.gcatania.auctionservice.dataobjects.Bid;
+import it.gcatania.auctionservice.dataobjects.Item;
+import it.gcatania.auctionservice.dataobjects.User;
+
 @Entity
 public class PersistentBid {
 
@@ -17,6 +21,19 @@ public class PersistentBid {
   public PersistentBid(String user, String item, double amount) {
     key = new PersistentBidKey(user, item);
     bidAmount = amount;
+  }
+
+  public Bid toBid() {
+    String user;
+    String item;
+    if (key != null) {
+      user = key.getUser();
+      item = key.getItem();
+    } else {
+      user = null;
+      item = null;
+    }
+    return new Bid(new User(user), new Item(item), bidAmount);
   }
 
   public PersistentBidKey getKey() {

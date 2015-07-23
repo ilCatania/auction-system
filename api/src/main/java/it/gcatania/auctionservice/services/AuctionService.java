@@ -1,6 +1,7 @@
 package it.gcatania.auctionservice.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.gcatania.auctionservice.dataobjects.Bid;
 import it.gcatania.auctionservice.dataobjects.Item;
@@ -27,7 +28,7 @@ public interface AuctionService {
    *         as the winning bid
    * @throws IllegalArgumentException if the input item is null or with missing values
    */
-  Bid getWinningBid(Item item) throws IllegalArgumentException;
+  Optional<Bid> getWinningBid(Item item) throws IllegalArgumentException;
 
   /**
    * retrieves all the bids recorded for an input item
