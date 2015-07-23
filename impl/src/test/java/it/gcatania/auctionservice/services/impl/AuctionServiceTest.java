@@ -71,4 +71,19 @@ public class AuctionServiceTest {
     Bid alicesBid = new Bid(new User("Alice"), new Item(itemName), 6);
     assertThat(foundBids, hasItems(bobsBid, alicesBid));
   }
+
+  @Test
+  public void testFindItemsByUser() {
+    pbRepo.save(Arrays.asList(new PersistentBid("Alice", "A book", 11),
+        new PersistentBid("Alice", "Some old vinyl discs", 33),
+        new PersistentBid("Alice", "Betty's engagement ring", 2),
+        new PersistentBid("Bob", "A book", 33),
+        new PersistentBid("Carl", "Some old vinyl discs", 18),
+        new PersistentBid("Carl", "A paper plane", 1337),
+        new PersistentBid("Dave", "Betty's engagement ring", 3)));
+
+    assertThat(auctionService.getBidItems(new User("Alice")), hasSize(3));
+    assertThat(auctionService.getBidItems(new User("Carl")), hasSize(2));
+    assertThat(auctionService.getBidItems(new User("Dave")), hasSize(1));
+  }
 }
