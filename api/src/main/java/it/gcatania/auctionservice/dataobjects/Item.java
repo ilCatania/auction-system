@@ -33,4 +33,9 @@ public class Item {
   public int hashCode() {
     return Objects.hashCode(name);
   }
+
+  @Override
+  public String toString() {
+    return "item: " + name;
+  }
 }
