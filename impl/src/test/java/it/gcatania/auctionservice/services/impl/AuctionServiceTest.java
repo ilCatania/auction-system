@@ -49,10 +49,9 @@ public class AuctionServiceTest {
   @Test
   public void testFindWinningBid() {
     String itemName = "A pineapple";
-    pbRepo.save(Arrays.asList(new PersistentBid("Alice", itemName, 11)));
-    pbRepo.save(Arrays.asList(new PersistentBid("Bob", itemName, 33)));
-    pbRepo.save(Arrays.asList(new PersistentBid("Carl", itemName, 18)));
-    pbRepo.save(Arrays.asList(new PersistentBid("Dave", itemName, 32)));
+    pbRepo.save(Arrays.asList(new PersistentBid("Alice", itemName, 11),
+        new PersistentBid("Bob", itemName, 33), new PersistentBid("Carl", itemName, 18),
+        new PersistentBid("Dave", itemName, 32)));
 
     Optional<Bid> b = auctionService.getWinningBid(new Item(itemName));
     Bid winningBid = b.get();
@@ -63,8 +62,8 @@ public class AuctionServiceTest {
   @Test
   public void testFindBidsForItem() {
     String itemName = "Shiny new shoes";
-    pbRepo.save(Arrays.asList(new PersistentBid("Alice", itemName, 6)));
-    pbRepo.save(Arrays.asList(new PersistentBid("Bob", itemName, 3)));
+    pbRepo.save(new PersistentBid("Alice", itemName, 6));
+    pbRepo.save(new PersistentBid("Bob", itemName, 3));
     List<Bid> foundBids = auctionService.getBids(new Item(itemName));
 
     assertThat(foundBids, hasSize(2));
