@@ -1,9 +1,12 @@
 package it.gcatania.auctionservice.services.impl;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -57,4 +60,16 @@ public class AuctionServiceTest {
     assertThat(winningBid.getBidder(), equalTo(new User("Bob")));
   }
 
+  @Test
+  public void testFindBidsForItem() {
+    String itemName = "Shiny new shoes";
+    pbRepo.save(Arrays.asList(new PersistentBid("Alice", itemName, 6)));
+    pbRepo.save(Arrays.asList(new PersistentBid("Bob", itemName, 3)));
+    List<Bid> foundBids = auctionService.getBids(new Item(itemName));
+
+    assertThat(foundBids, hasSize(2));
+    Bid bobsBid = new Bid(new User("Bob"), new Item(itemName), 3);
+    Bid alicesBid = new Bid(new User("Alice"), new Item(itemName), 6);
+    assertThat(foundBids, hasItems(bobsBid, alicesBid));
+  }
 }
