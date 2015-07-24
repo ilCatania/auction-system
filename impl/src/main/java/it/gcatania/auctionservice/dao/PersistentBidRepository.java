@@ -17,6 +17,6 @@ public interface PersistentBidRepository extends CrudRepository<PersistentBid, P
 
   List<PersistentBid> findByKeyItem(String itemName);
 
-  @Query("select key.item from PersistentBid where key.user = ?")
+  @Query("select key.item from PersistentBid where key.user = ?1")
   List<String> findItemsByUser(String userName);
 }
