@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Auction service bid list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+
+  <body>
+
+    <h1 th:text="${title}">Bid list</h1>
+    <h2><a href="/">Back</a></h2>
+
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <td>User</td>
+            <td>Item</td>
+            <td>Amount</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:if="${bids.empty}">
+            <td colspan="3">
+              No bids
+            </td>
+          </tr>
+          <tr th:each="bid : ${bids}">
+            <td th:text="${bid.bidder.name}">John Doe</td>
+            <td th:text="${bid.bidItem.name}">A pineapple</td>
+            <td th:text="${bid.bidAmount}">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

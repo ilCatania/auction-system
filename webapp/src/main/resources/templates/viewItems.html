@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Auction service item list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+
+  <body>
+
+    <h1>Item list for user: <span th:text="${user}">John Doe</span></h1>
+    <h2><a href="/">Back</a></h2>
+
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <td>Item</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:if="${items.empty}">
+            <td colspan="3">
+              No items
+            </td>
+          </tr>
+          <tr th:each="item : ${items}">
+            <td th:text="${item.name}">A pineapple</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

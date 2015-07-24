@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Auction service main page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+
+  <body>
+
+    <h1>Auction service main page</h1>
+
+    <div class="container">
+      <form id="placeBidForm"
+          th:action="@{/placeBid}"
+          th:object="${bidData}"
+          action="#"
+          method="post">
+        <label for="user">User</label>
+        <input type="text" th:field="*{user}"/>
+        <label for="item">Item</label>
+        <input type="text" th:field="*{item}"/>
+        <label for="item">Bid amount</label>
+        <input type="text" th:field="*{amount}"/>
+        <div class="form-actions">
+          <input type="submit" value="Place bid"/>
+        </div>
+      </form>
+
+      <form id="getWinningBid"
+          th:action="@{/getWinningBid}"
+          th:object="${bidData}"
+          action="#"
+          method="get">
+        <label for="item">Item</label>
+        <input type="text" th:field="*{item}"/>
+        <div class="form-actions">
+          <input type="submit" value="Get winning bid"/>
+        </div>
+      </form>
+
+      <form id="getBidsOnItem"
+          th:action="@{/getBidsOnItem}"
+          th:object="${bidData}"
+          action="#"
+          method="get">
+        <label for="item">Item</label>
+        <input type="text" th:field="*{item}"/>
+        <div class="form-actions">
+          <input type="submit" value="Get all bids on item"/>
+        </div>
+      </form>
+
+      <form id="getBidsFromUser"
+          th:action="@{/getBidsFromUser}"
+          th:object="${bidData}"
+          action="#"
+          method="get">
+        <label for="user">User</label>
+        <input type="text" th:field="*{user}"/>
+        <div class="form-actions">
+          <input type="submit" value="Get bids from user"/>
+        </div>
+      </form>
+
+    </div>
+  </body>
+</html>
